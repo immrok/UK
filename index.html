@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK LOAN AGENCY - লোনের আবেদন</title>
+    <!-- Google Fonts Import -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* কালার স্কিম ও নিয়ন থিম */
+        :root {
+            --primary-bg-color: #04001F; /* প্রায় কালো গাঢ় নীল */
+            --form-bg-color: rgba(0, 0, 0, 0.5); /* স্বচ্ছ গাঢ় */
+            --text-color: #E0FFFF; /* হালকা সায়ান/সাদা */
+            --logo-text-color: #00FFFF; /* উজ্জ্বল নিয়ন সায়ান */
+            --neon-glow: 0 0 8px #00FFFF, 0 0 15px #00FFFF; /* নিয়ন গ্লো ইফেক্ট */
+            --button-primary-color: #003366; /* গাঢ় নীল বাটন */
+            --button-secondary-color: #00CC00; /* সবুজ */
+            --error-color: #FF4444; /* উজ্জ্বল লাল */
+            --secondary-text-color: #000; /* বাটন টেক্সট কালার ফিক্স */
+            --bkash-color: #E11361; 
+            --nagad-color: #F7931E; 
+            --download-btn-color: #FFCC00; /* ডাউনলোডের জন্য নতুন কালার */
+            --telegram-color: #0088CC; /* টেলিগ্রামের অফিশিয়াল কালার */
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* মসৃণ ট্রানজিশন */
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-bg-color); 
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            min-height: 100vh;
+            position: relative; 
+            overflow-x: hidden;
+        }
+        
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -999; 
+            background-image: repeating-linear-gradient(0deg, var(--primary-bg-color), var(--primary-bg-color) 1px, transparent 1px, transparent 40px), 
+                              repeating-linear-gradient(90deg, var(--primary-bg-color), var(--primary-bg-color) 1px, transparent 1px, transparent 40px);
+            background-size: 100% 40px, 40px 100%;
+            opacity: 0.8; filter: brightness(0.8);
+        }
+        
+        .container {
+            position: relative; z-index: 10; width: 100%; max-width: 600px; padding-bottom: 50px; 
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+        
+        .branding {
+            text-align: center; margin-bottom: 30px; color: var(--logo-text-color); 
+        }
+
+        .logo {
+            width: 90px; height: 90px; background-color: var(--primary-bg-color); border-radius: 50%; 
+            margin: 0 auto 10px; display: flex; justify-content: center; align-items: center; 
+            font-family: 'Oswald', sans-serif; font-size: 1.8em; font-weight: 700; 
+            color: var(--logo-text-color); border: 5px solid var(--logo-text-color); 
+            box-shadow: var(--neon-glow), inset var(--neon-glow);
+        }
+
+        .logo-text {
+            font-family: 'Oswald', sans-serif; font-size: 3em; line-height: 1; 
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.8), var(--neon-glow);
+            margin-top: 0; margin-bottom: 5px;
+        }
+
+        .slogan {
+            font-size: 1.2em; margin-top: 0; margin-bottom: 15px;
+            color: #A0FFFF; text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+        }
+        
+        /* প্রধান পাতার স্টাইল */
+        .landing-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* ভিডিও কন্টেইনার পরিবর্তিত হলো টেলিগ্রাম বাটন কন্টেইনারে */
+        .telegram-video-section {
+            width: 100%;
+            padding: 25px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--telegram-color);
+            border-radius: 10px;
+            box-shadow: 0 0 15px var(--telegram-color);
+            text-align: center;
+        }
+
+        .telegram-video-section h3 {
+            color: var(--text-color);
+            text-shadow: 0 0 5px var(--telegram-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .telegram-btn {
+            background-color: var(--telegram-color);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .telegram-btn:hover {
+            background-color: #00A9E0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6), 0 0 20px var(--telegram-color);
+        }
+        
+        .telegram-icon {
+            margin-right: 10px;
+            font-size: 1.5em; /* আইকনের আকার */
+        }
+
+        .instructions-list {
+            width: 100%;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--logo-text-color);
+            border-radius: 10px;
+            box-shadow: 0 0 15px var(--logo-text-color);
+        }
+
+        .instructions-list h3 {
+            color: var(--logo-text-color);
+            text-align: center;
+            margin-top: 0;
+            text-shadow: 0 0 5px var(--logo-text-color);
+        }
+
+        .instructions-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .instructions-list li {
+            padding: 8px 0;
+            border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
+        }
+        .instructions-list li:last-child { border-bottom: none; }
+        
+        /* আবেদন ফর্মের স্টাইল */
+        .loan-form {
+            background-color: var(--form-bg-color); backdrop-filter: blur(8px); padding: 35px;
+            border-radius: 15px; width: 100%; border: 2px solid var(--logo-text-color); 
+            box-shadow: 0 0 30px var(--logo-text-color), inset 0 0 10px var(--logo-text-color);
+            display: flex; flex-wrap: wrap; gap: 25px; margin-bottom: 25px; 
+            /* প্রাথমিক অবস্থায় লুকানো */
+            display: none; 
+        }
+
+        /* বাটন স্টাইল */
+        .primary-btn {
+            padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer;
+            font-size: 1.1em; font-weight: 700; color: var(--text-color);
+            background-color: var(--button-primary-color); 
+            text-shadow: 0 0 5px var(--logo-text-color); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* অ্যাপ্লিকেশন ডাউনলোড বাটন */
+        .app-download-btn {
+            background-color: var(--download-btn-color);
+            color: var(--secondary-text-color);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            border: 1px solid #FFCC00;
+            box-shadow: 0 0 10px var(--download-btn-color);
+        }
+        .app-download-btn:hover {
+            background-color: #FFDE59;
+            box-shadow: 0 0 20px var(--download-btn-color);
+        }
+        
+        /* অন্যান্য কমন স্টাইল... (আগের কোড থেকে) */
+        input:not([type="checkbox"]), textarea, select {
+            padding: 12px; border: 1px solid #444; border-radius: 8px; font-size: 1em;
+            font-family: 'Noto Sans Bengali', sans-serif; outline: none; width: 100%;
+            background-color: #000000; color: var(--text-color);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--logo-text-color); box-shadow: var(--neon-glow);
+        }
+        
+        label { color: var(--text-color); }
+
+        .form-group { flex: 1 1 calc(50% - 12.5px); display: flex; flex-direction: column; }
+        .full-width { flex: 1 1 100%; }
+
+        .primary-btn:hover {
+            background-color: #0055AA; transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), var(--neon-glow);
+        }
+
+        .submit-btn { 
+            background-color: var(--logo-text-color); 
+            color: var(--secondary-text-color);
+            box-shadow: 0 0 10px var(--logo-text-color), 0 0 20px var(--logo-text-color);
+            font-size: 1.2em;
+        }
+
+        .submit-btn:hover {
+            box-shadow: 0 0 20px var(--logo-text-color), 0 0 40px var(--logo-text-color), 0 0 60px var(--logo-text-color);
+        }
+        
+        /* Modal, Terms, Instructions, Customer Center স্টাইল... (আগের কোড থেকে) */
+        .terms-section, .instruction-section {
+            padding: 20px; background-color: rgba(0, 0, 0, 0.6); 
+            border-left: 5px solid var(--logo-text-color); margin-top: 15px; 
+            border-radius: 8px; flex: 1 1 100%; color: #ccc;
+        }
+        
+        .instruction-content {
+            background-color: #000; padding: 15px; border-radius: 5px; color: #fff; white-space: pre-wrap;
+            border: 1px solid var(--logo-text-color); font-size: 0.9em;
+        }
+
+        .hint-advance-payment {
+            color: var(--error-color); font-weight: 700; margin-bottom: 10px;
+            text-align: center; width: 100%; text-shadow: 0 0 5px var(--error-color);
+        }
+
+        .modal {
+            display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%;
+            height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center; align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--primary-bg-color); padding: 30px; border-radius: 10px;
+            width: 90%; max-width: 400px; border: 2px solid var(--logo-text-color);
+            box-shadow: 0 0 20px var(--logo-text-color); color: var(--text-color);
+        }
+        
+        .mfs-options { display: flex; justify-content: space-around; margin-top: 15px; }
+
+        .mfs-btn {
+            padding: 15px; border-radius: 8px; font-size: 1.1em; font-weight: 700; color: white; border: none; cursor: pointer;
+            flex: 1; margin: 0 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+
+        .bkash-btn { background-color: var(--bkash-color); }
+        .nagad-btn { background-color: var(--nagad-color); }
+
+        #confirmPaymentBtn { 
+            background-color: var(--button-secondary-color); margin-top: 20px; width: 100%; color: white;
+        }
+
+        .customer-center {
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px); 
+            padding: 25px;
+            border-radius: 10px; 
+            border: 1px dashed var(--logo-text-color);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            margin-top: 40px;
+            text-align: center;
+            width: 100%;
+        }
+        
+        @media (max-width: 650px) {
+            .loan-form { padding: 25px; }
+            .form-group { flex: 1 1 100%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <!-- ফন্ট অসম (টেলিগ্রাম আইকনের জন্য) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <!-- Branding (UK LOAN AGENCY) -->
+        <header class="branding">
+            <div class="logo">UK.L.A</div>
+            <h1 class="logo-text">UK LOAN AGENCY</h1>
+            <p class="slogan">আপনার ভবিষ্যতের সঙ্গী</p>
+        </header>
+        
+        <!-- ১. প্রধান পাতা (Landing Page Content) -->
+        <section id="landingPage" class="landing-content">
+            <!-- ভিডিওর পরিবর্তে টেলিগ্রাম জয়েন সেকশন - পরিবর্তিত অংশ -->
+            <div class="telegram-video-section">
+                <h3>আবেদন কিভাবে করবেন? সম্পূর্ণ ভিডিও টেলিগ্রামে দেওয়া আছে ভিডিও দেখতে টেলিগ্রামে জয়েন করুন।</h3>
+                <!-- এখানে আপনার টেলিগ্রাম চ্যানেলের লিংক বসান -->
+                <a href="https://t.me/+5SByPBlPv5M4ZDk1" target="_blank" class="telegram-btn">
+                    <i class="fab fa-telegram-plane telegram-icon"></i>
+                    গ্রাহক সাপোর্ট 
+                </a>
+                <!-- **নোট**: `https://t.me/YOUR_TELEGRAM_CHANNEL_LINK` এর জায়গায় আপনার আসল টেলিগ্রাম চ্যানেলের লিংক দিন। -->
+            </div>
+            <!-- নির্দেশনাবলী -->
+            <div class="instructions-list">
+                <h3>আবেদনের পূর্বে গুরুত্বপূর্ণ নির্দেশনাবলী</h3>
+                <ul>
+                    <li>ফর্মের সকল ঘর নির্ভুল তথ্য দিয়ে পূরণ করা আবশ্যক।</li>
+                    <li>ঋণের পরিমাণ সর্বনিম্ন ৫,০০০ টাকা এবং সর্বোচ্চ ৫০,০০০ টাকা।</li>
+                    <li>'আবেদন করুন' বাটনে ক্লিক করার পর ফর্ম পূরণ করুন।</li>
+                    <li>আবেদন করার পর তথ্য চেক করার জন্য ৪৫ মিনিট সময় নেওয়া হবে! </li>
+                    <li>বিকাশ নগদ নাম্বার থেকে আবেদন করুন! যে নাম্বারটি ব্যবহার করবেন একই নাম্বারে লেনদেন করা হবে! </li>
+                </ul>
+            </div>
+            
+
+            <!-- মূল বাটন -->
+            <button type="button" id="applyNowBtn" class="primary-btn submit-btn" style="width: 100%; margin-top: 5px;">
+                আবেদন করুন
+            </button>
+        </section>
+
+
+        <!-- ২. লোনের আবেদন ফর্ম (পূর্বের কোড) -->
+        <form id="loanApplicationForm" class="loan-form" autocomplete="off">
+            <h2 class="form-title" style="color: var(--logo-text-color); text-shadow: 0 0 5px var(--logo-text-color); flex: 1 1 100%;">লোনের আবেদন</h2>
+
+            <div class="form-group">
+                <label for="fullName">পুরো নাম (জাতীয় পরিচয়পত্র অনুযায়ী): <span style="color: var(--error-color);">*</span></label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="nidNumber">জাতীয় পরিচয়পত্র (NID) নম্বর: <span style="color: var(--error-color);">*</span></label>
+                <input type="text" id="nidNumber" name="nidNumber" 
+                       pattern="^\d{10}|\d{13}|\d{17}$" 
+                       title="NID অবশ্যই ১০, ১৩ বা ১৭ অঙ্কের হতে হবে।" 
+                       required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mobileNumber">মোবাইল নম্বর: <span style="color: var(--error-color);">*</span></label>
+                <input type="tel" id="mobileNumber" name="mobileNumber" 
+                       pattern="^(01[3-9]\d{8})$" 
+                       title="মোবাইল নম্বর অবশ্যই ১১ অঙ্কের এবং সঠিক ফরম্যাটে হতে হবে (যেমন: 01XXXXXXXXX)।" 
+                       required>
+            </div>
+            
+            <div class="form-group">
+                <label for="emailAddress">ই-মেইল (ঐচ্ছিক):</label>
+                <input type="email" id="emailAddress" name="emailAddress">
+            </div>
+
+            <!-- লোনের পরিমাণ (৫,০০০ - ৫০,০০০ টাকা) -->
+            <div class="form-group full-width">
+                <label for="loanAmount">লোনের পরিমাণ (৫,০০০ - ৫০,০০০ টাকা): <span style="color: var(--error-color);">*</span></label>
+                <input type="number" id="loanAmount" name="loanAmount" 
+                       min="5000" max="50000" step="1000" value="10000" 
+                       required>
+                <small style="color: #999; margin-top: 5px;">(১০০০ টাকার গুণিতকে)</small>
+            </div>
+            
+            <!-- অগ্রিম জমার পরিমাণ (ডাইনামিক) -->
+            <div class="form-group">
+                <label for="advancePayment">প্রয়োজনীয় অগ্রিম জমা: <span style="color: var(--error-color);">*</span></label>
+                <input type="text" id="advancePayment" name="advancePayment" value="১,৩০০ টাকা" readonly style="background-color: #1a1a1a; color: var(--logo-text-color);">
+                <small style="color: #999;">(প্রতি ৫,০০০ টাকায় ৬৫০ টাকা)</small>
+            </div>
+            
+            <!-- লোনের সময়কাল -->
+             <div class="form-group">
+                <label for="loanDuration">ঋণের সময়কাল (মাসে) *</label>
+                <select id="loanDuration" required style="font-family: 'Noto Sans Bengali', sans-serif;">
+                    <option value="">নির্বাচন করুন</option>
+                    <option value="6">৬ মাস (সর্বনিম্ন)</option>
+                    <option value="12">১২ মাস</option>
+                    <option value="18">১৮ মাস</option>
+                    <option value="24">২৪ মাস (সর্বোচ্চ)</option>
+                </select>
+            </div>
+
+            <!-- Modal Functionality Trigger -->
+            <div class="form-group full-width" style="align-items: center; margin-top: 10px;">
+                <p id="advancePaymentStatus" class="hint-advance-payment">অগ্রিম জমা নিশ্চিত করা হয়নি: <span id="depositRequiredAmount">১,৩০০ টাকা</span></p>
+                <button type="button" id="openPaymentModalBtn" class="primary-btn" style="width: 100%; border: 1px solid var(--logo-text-color);">
+                    অগ্রিম জমা দিন
+                </button>
+            </div>
+
+            <!-- শর্তাবলী বিভাগ -->
+            <div class="full-width">
+                <button type="button" class="primary-btn full-width" style="margin-top: 10px;" onclick="toggleTermsSection()">শর্তাবলী দেখুন</button>
+                <section id="termsSection" class="terms-section" style="display: none;">
+                    <h3>শর্তাবলী ও নিয়মাবলী</h3>
+                    <div class="instruction-content">
+                        ১. আবেদনকারীকে অবশ্যই বাংলাদেশের বৈধ নাগরিক হতে হবে।
+                        ২. লোনের পরিমাণ এবং অগ্রিম জমার পরিমাণ পরিবর্তনশীল।
+                        ৩. অগ্রিম জমা অফেরতযোগ্য নয়। লোন পরিশোধ করার পর এই টাকা সম্পূর্ণ ফেরত দেওয়া হবে।
+                        ৪. লোনের টাকা সময় মত পরিশোধ না করলে আইনি ব্যবস্থা নেওয়া হবে।
+                       ৫.যে নাম্বারটি ব্যবহার করবেন সেটি অবশ্যই বিকাশ নগদ নাম্বার হতে হবে! 
+                    </div>
+                </section>
+            </div>
+
+            <!-- অ্যাক্সেসিবিলিটির জন্য checkbox-এর চারপাশে div ব্যবহার করা হয়েছে -->
+            <div class="form-group full-width checkbox-group" style="align-items: center; flex-direction: row; gap: 10px;">
+                <input type="checkbox" id="agreeTerms" name="agreeTerms" style="width: auto;">
+                <label for="agreeTerms" style="margin: 0;">আমি শর্তাবলী ও নিয়মাবলীতে সম্মত। <span style="color: var(--error-color);">*</span></label>
+            </div>
+            
+            <!-- Form Submission (নিয়ন গ্লো সহ) -->
+            <div class="form-group full-width">
+                <button type="submit" id="submitBtn" class="primary-btn submit-btn">আবেদন জমা দিন</button>
+            </div>
+        </form>
+        
+
+
+    <!-- Modal for Step-by-Step Payment -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" style="color: var(--logo-text-color); font-size: 2em; float: right; cursor: pointer;">&times;</span>
+            <h3 id="modalTitle" style="color: var(--logo-text-color); text-shadow: 0 0 5px var(--logo-text-color);">পেমেন্ট পদ্ধতি নির্বাচন করুন</h3>
+
+            <!-- Step 1: MFS Selection -->
+            <div id="step1" class="payment-step">
+                <p>অগ্রিম জমার পরিমাণ: <span id="depositAmountDisplay" style="color: var(--logo-text-color); font-weight: 700;">১,৩০০ টাকা</span></p>
+                <div class="mfs-options">
+                    <button type="button" class="mfs-btn bkash-btn" data-mfs="বিকাশ">বিকাশ</button>
+                    <button type="button" class="mfs-btn nagad-btn" data-mfs="নগদ">নগদ</button>
+                </div>
+            </div>
+
+            <!-- Step 2: TxID Input -->
+            <div id="step2" class="payment-step" style="display: none;">
+                <p>নির্বাচিত পদ্ধতি: <span id="selectedMFSDisplay" style="color: var(--logo-text-color); font-weight: 700;"></span></p>
+                <p style="color: var(--error-color);">এই নম্বরে <span id="depositAmountStatic"></span> Send Money করুন: <strong>01806443971</strong></p>
+                <input type="text" id="transactionId" placeholder="ট্রানস্যাকশন আইডি (TxID) দিন" required>
+                <!-- পেমেন্ট নিশ্চিত বাটন -->
+                <button type="button" id="confirmPaymentBtn" class="primary-btn">পেমেন্ট নিশ্চিত করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ৩. প্রোগ্রামিং ভাষা (JavaScript - ভ্যানিলা JavaScript) -->
+    <script>
+        // --- গ্লোবাল ভ্যারিয়েবল ও স্টেট ম্যানেজমেন্ট ---
+        let isAdvancePaymentConfirmed = false;
+        let currentDepositAmount = 1300; 
+
+        // --- DOM Manipulation: HTML উপাদান নির্বাচন ---
+        const applyNowBtn = document.getElementById('applyNowBtn');
+        const landingPage = document.getElementById('landingPage');
+        const formContainer = document.getElementById('loanApplicationForm');
+        
+        const form = document.getElementById('loanApplicationForm');
+        const loanAmountInput = document.getElementById('loanAmount');
+        const advancePaymentDisplay = document.getElementById('advancePayment');
+        const termsSection = document.getElementById('termsSection');
+        const agreeTermsCheckbox = document.getElementById('agreeTerms');
+        const openPaymentModalBtn = document.getElementById('openPaymentModalBtn');
+        const advancePaymentStatus = document.getElementById('advancePaymentStatus'); 
+        const depositRequiredAmount = document.getElementById('depositRequiredAmount'); 
+        const loanDurationInput = document.getElementById('loanDuration');
+
+        // Modal Elements
+        const paymentModal = document.getElementById('paymentModal');
+        const closeModalBtn = paymentModal.querySelector('.close-btn');
+        const depositAmountDisplay = document.getElementById('depositAmountDisplay');
+        const depositAmountStatic = document.getElementById('depositAmountStatic');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const selectedMFSDisplay = document.getElementById('selectedMFSDisplay');
+        const transactionIdInput = document.getElementById('transactionId');
+        const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+        const mfsButtons = document.querySelectorAll('.mfs-btn');
+
+
+        // --- UI Transition Functionality ---
+        applyNowBtn.addEventListener('click', () => {
+            landingPage.style.display = 'none'; // প্রথম পাতা লুকান
+            formContainer.style.display = 'flex'; // ফর্ম দেখান
+            // নিশ্চিত করুন যে ফর্মের স্ক্রলিং শুরুতে আছে
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateAdvancePayment(); // ফর্ম লোড হওয়ার পর একবার আপডেট
+        });
+
+        // --- Utility Function: শর্তাবলী বিভাগ লুকানো ও দেখানো ---
+        function toggleTermsSection() {
+            termsSection.style.display = (termsSection.style.display === 'none' || termsSection.style.display === '') ? 'block' : 'none';
+        } 
+
+        // --- Dynamic Content: অগ্রিম জমার পরিমাণ গণনা ও প্রদর্শন ---
+        function updateAdvancePayment() {
+            const loanAmount = parseInt(loanAmountInput.value);
+            
+            // ইনপুট ভ্যালু ভ্যালিড না হলে, ডিফল্ট মান (৫০০০) ব্যবহার
+            if (isNaN(loanAmount) || loanAmount < 5000) {
+                 loanAmountInput.value = 5000;
+                 return;
+            }
+            
+            // --- লোনের পরিমাণ ৫,০০০ - ৫০,০০০ এর মধ্যে সীমাবদ্ধ করা ---
+            const finalAmount = Math.min(Math.max(loanAmount, 5000), 50000);
+            loanAmountInput.value = finalAmount;
+            
+            // প্রতি ৫০০০ টাকায় ৬৫০ টাকা
+            const unitsOf5000 = Math.ceil(finalAmount / 5000);
+            const calculatedAmount = unitsOf5000 * 650;
+            
+            currentDepositAmount = calculatedAmount;
+            
+            // বাংলা সংখ্যা ফরম্যাটিং
+            const formattedAmount = new Intl.NumberFormat('bn-BD').format(calculatedAmount);
+            
+            advancePaymentDisplay.value = `${formattedAmount} টাকা`;
+            depositAmountDisplay.textContent = `${formattedAmount} টাকা`;
+            depositAmountStatic.textContent = `${formattedAmount} টাকা`; 
+            
+            // অগ্রিম জমা স্ট্যাটাস আপডেট (যদি নিশ্চিত না হয়)
+            if (!isAdvancePaymentConfirmed) {
+                depositRequiredAmount.textContent = `${formattedAmount} টাকা`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateAdvancePayment);
+        loanAmountInput.addEventListener('input', updateAdvancePayment); 
+
+        // --- Modal Functionality ---
+
+        function showModal(step = 1) {
+            paymentModal.style.display = 'flex'; 
+            if (step === 1) {
+                step1.style.display = 'block';
+                step2.style.display = 'none';
+                transactionIdInput.value = ''; 
+            } else if (step === 2) {
+                step1.style.display = 'none';
+                step2.style.display = 'block';
+            }
+        }
+
+        function hideModal() {
+            paymentModal.style.display = 'none';
+        }
+
+        openPaymentModalBtn.addEventListener('click', () => { 
+            if (isAdvancePaymentConfirmed) {
+                alert("অগ্রিম জমা ইতোমধ্যে নিশ্চিত করা হয়েছে।");
+                return;
+            }
+            updateAdvancePayment(); 
+            showModal(1);
+        });
+        
+        closeModalBtn.addEventListener('click', hideModal);
+        window.addEventListener('click', (event) => {
+            if (event.target === paymentModal) {
+                hideModal();
+            }
+        });
+
+        mfsButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const mfs = e.target.dataset.mfs;
+                selectedMFSDisplay.textContent = mfs;
+                showModal(2); 
+            });
+        });
+
+        confirmPaymentBtn.addEventListener('click', () => {
+            const txid = transactionIdInput.value.trim();
+            if (txid.length < 5) {
+                alert("অনুগ্রহ করে একটি বৈধ ট্রানস্যাকশন আইডি (TxID) দিন।");
+                return;
+            }
+            
+            // ডেমো/সিমুলেশন। 
+            isAdvancePaymentConfirmed = true; 
+            hideModal();
+            
+            alert(`পেমেন্ট সফলভাবে নিশ্চিত করা হয়েছে। TxID: ${txid}`);
+            
+            // UI আপডেট
+            openPaymentModalBtn.textContent = 'অগ্রিম জমা নিশ্চিত ✓';
+            openPaymentModalBtn.style.backgroundColor = 'var(--button-secondary-color)';
+            openPaymentModalBtn.style.boxShadow = '0 0 10px var(--button-secondary-color)';
+            openPaymentModalBtn.style.border = '1px solid var(--button-secondary-color)';
+            openPaymentModalBtn.disabled = true;
+            
+            advancePaymentStatus.innerHTML = 'অগ্রিম জমা নিশ্চিত হয়েছে।'; 
+            advancePaymentStatus.style.color = 'var(--button-secondary-color)';
+            advancePaymentStatus.style.textShadow = '0 0 5px var(--button-secondary-color)';
+            advancePaymentStatus.classList.remove('hint-advance-payment'); 
+        });
+
+
+        // --- Form Validation ও Submission ---
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            
+            updateAdvancePayment();
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const mobileNumber = document.getElementById('mobileNumber').value.trim();
+            const nidNumber = document.getElementById('nidNumber').value.trim();
+            const emailAddress = document.getElementById('emailAddress').value.trim();
+            const loanDuration = loanDurationInput.value;
+
+            // রেগুলার এক্সপ্রেশন (RegExp) ফরমেট যাচাই
+            const nameRegex = /^[a-zA-Z\s\u0980-\u09FF]+$/;
+            const mobileRegex = /^(01[3-9]\d{8})$/;
+            const nidRegex = /^\d{10}|\d{13}|\d{17}$/;
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            let isValid = true;
+            let errors = [];
+
+            // সাধারণ ভ্যালিডেশন
+            if (fullName === '' || !nameRegex.test(fullName)) {
+                isValid = false;
+                errors.push("নাম আবশ্যক এবং শুধুমাত্র অক্ষর ও স্পেস ব্যবহার করা যাবে।");
+            }
+            if (!nidRegex.test(nidNumber)) {
+                isValid = false;
+                errors.push("NID নম্বর সঠিক ফরম্যাটে নেই (১০, ১৩ বা ১৭ অঙ্ক)।");
+            }
+            if (!mobileRegex.test(mobileNumber)) {
+                isValid = false;
+                errors.push("মোবাইল নম্বর সঠিক ফরম্যাটে নেই (01XXXXXXXXX)।");
+            }
+            if (emailAddress && !emailRegex.test(emailAddress)) {
+                isValid = false;
+                errors.push("ই-মেইল ঠিকানা সঠিক নয়।");
+            }
+            if (loanDuration === '') {
+                isValid = false;
+                errors.push("ঋণের সময়কাল নির্বাচন করুন।");
+            }
+            
+            // বিজনেস লজিক ভ্যালিডেশন
+            if (!isAdvancePaymentConfirmed) {
+                isValid = false;
+                errors.push(`অনুগ্রহ করে ${new Intl.NumberFormat('bn-BD').format(currentDepositAmount)} টাকা অগ্রিম জমা নিশ্চিত করুন।`);
+            }
+            if (!agreeTermsCheckbox.checked) {
+                isValid = false;
+                errors.push("আবেদন জমা দেওয়ার আগে অবশ্যই শর্তাবলীতে সম্মত হতে হবে।");
+            }
+
+            if (isValid) {
+                alert("আপনার আবেদন সফলভাবে জমা হয়েছে। যাচাইকরণের পর আপনাকে যোগাযোগ করা হবে।");
+                
+                // ফর্ম রিসেট এবং প্রথম পাতায় ফিরে যান
+                form.reset();
+                isAdvancePaymentConfirmed = false;
+                
+                // বাটন রিসেট
+                openPaymentModalBtn.textContent = 'অগ্রিম জমা দিন';
+                openPaymentModalBtn.disabled = false;
+                openPaymentModalBtn.style.backgroundColor = 'var(--button-primary-color)';
+                openPaymentModalBtn.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.4)';
+                openPaymentModalBtn.style.border = '1px solid var(--logo-text-color)';
+                advancePaymentStatus.innerHTML = `অগ্রিম জমা নিশ্চিত করা হয়নি: <span id="depositRequiredAmount">${new Intl.NumberFormat('bn-BD').format(currentDepositAmount)} টাকা</span>`;
+                advancePaymentStatus.style.color = 'var(--error-color)';
+                advancePaymentStatus.style.textShadow = '0 0 5px var(--error-color)';
+                advancePaymentStatus.classList.add('hint-advance-payment');
+                updateAdvancePayment(); 
+                
+                // প্রথম পাতা দেখান
+                formContainer.style.display = 'none';
+                landingPage.style.display = 'flex';
+            } else {
+                alert("ফর্ম জমা দেওয়া যায়নি:\n" + errors.join('\n'));
+            }
+        });
+    </script>
+</body>
+</html>
